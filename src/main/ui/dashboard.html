@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Company Application</title>
+        <!--  Scripts-->
+        <script type="text/javascript" src="resources/js/lib.js"></script>
+        <script type="text/javascript" src="resources/js/app.js"></script>
+    </head>
+    <body ng-app="dashboardApp">
+        <div ng-controller="DashboardCntrl">
+            Existing Companies:
+            <ul>
+                <li ng-repeat="company in companies">
+                    <p>Company Name: {{ company.name }} and Company Id: {{ company.id }} <button ng-click="deleteCompany(company.id)">Remove</button>
+                        <ul> Owners
+                            <li ng-repeat="owner in company.owners">Owner name : {{ owner.username }} <button ng-click="removeOwner(owner.id, company.id)"> Remove Owner</button></li>
+                        </ul>
+                    </p>
+               </li>
+            </ul>
+            <br>
+
+            Get Company Details:
+            <input type="number"
+                  placeholder="Company Id" ng-model="selectedCompanyId" ng-change="getCompany()">
+             <p>Company Name: {{ selectedCompany.name }}</p>
+             <p>Company Address: {{ selectedCompany.address }}</p>
+             <p>Owner names:</p>
+             <ul>
+                 <li ng-repeat="owner in selectedCompany.owners">User Id: {{owner.id}} and  User Login Id: {{ owner.loginId }}</li>
+             </ul>
+
+             Add/Update Company:
+             <form>
+                <input type="number" placeholder="Company Id" ng-model="companyToUpdate.id">
+                <input type="text" placeholder="Name" ng-model="companyToUpdate.name" required>
+                <input type="text" placeholder="Address" ng-model="companyToUpdate.address" required>
+                <input type="text" placeholder="City" ng-model="companyToUpdate.city" required>
+                <input type="text" placeholder="Country" ng-model="companyToUpdate.country" required>
+                <input type="email" placeholder="Email" ng-model="companyToUpdate.email" required>
+                <input type="phone" placeholder="Phone" ng-model="companyToUpdate.phone" required>
+                <button ng-click="saveUpdateCompany()">Save</button>
+             </form>
+            <br>
+            Add owner to Company:
+            <form>
+                <input type="number" placeholder="Company Id" ng-model="addOwner.companyId">
+                <input type="number" placeholder="Owner Id" ng-model="addOwner.ownerId">
+                <button ng-click="addOwner()">Add Owner</button>
+            </form>
+            <br>
+            Existing Users:
+            <ul>
+                <li ng-repeat="user in existingUsers">
+                    <p>User Name: {{ user.username }} and User Id: {{ user.id }} <button ng-click="deleteUser(user.id)">Disable(Soft Delete)</button> </p>
+               </li>
+            </ul>
+
+             Add/Update User:
+             <form>
+                <input type="number" placeholder="user id" ng-model="userToUpdate.id">
+                <input type="text" placeholder="username" ng-model="userToUpdate.name" required>
+                <input type="email" placeholder="loginId" ng-model="userToUpdate.loginId" required>
+                <input type="password" placeholder="password" ng-model="userToUpdate.password" required>
+                <button ng-click="saveUpdateUser()">Save</button>
+             </form>
+
+            Enable User:
+              <input type="number" placeholder="User Id" ng-model="disabledUserId"/>
+              <button ng-click="enableUser()">Enable User</button>
+        </div>
+    </body>
+</html>

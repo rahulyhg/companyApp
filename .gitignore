@@ -1,12 +1,21 @@
-*.class
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+.sass-cache/
+.classpath
+.settings/
+.project
+.DS_Store
+node_modules
+bower_components
+src/main/webapp/resources/fonts
+src/main/webapp/resources/images
+src/main/webapp/resources/img
+src/main/webapp/resources/js
+src/main/webapp/resources/style
+src/main/webapp/resources/config
+src/main/webapp/resources/templates
+target/
+target/**
+src/main/webapp/resources/florintos.html
+src/main/webapp/resources/login.html
+/target/
+node/
+src/main/webapp/resources

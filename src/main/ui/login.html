@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Company</title>
+    <!--  Scripts-->
+    <script type="text/javascript" src="resources/js/lib.js"></script>
+    <script type="text/javascript" src="resources/js/app.js"></script>
+  </head>
+  <body ng-app="dashboardApp">
+        <div ng-controller="LoginSignupCntrl">
+            <p>
+            Following users are already created:
+            1. user1@company.com/user1
+            2. user2@company.com/user2
+            </p>
+            <!--  Login form. -->
+            <form ng-submit="onLogin()" name="loginForm" novalidate>
+                <div ng-repeat="text in loginSignUpErrorMessages"> {{text}}</div>
+                <input type="email" placeholder="E-mail" ng-model="loginEmail" required>
+                <input type="password" placeholder="Password" ng-model="loginPassword" required>
+                <button type="submit" ng-disabled="loginForm.$invalid">Login</button>
+            </form>
+          </div>
+  </body>
+</html>
