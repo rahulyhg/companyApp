@@ -44,41 +44,26 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     CsrfTokenResponseHeaderBindingFilter csrfTokenFilter =
         new CsrfTokenResponseHeaderBindingFilter();
     http.addFilterAfter(csrfTokenFilter, CsrfFilter.class);
-    http.authorizeRequests()
-        .antMatchers("/resources/config/**")
-        .permitAll()
-        .antMatchers("/resources/fonts/**")
-        .permitAll()
-        .antMatchers("/resources/images/**")
-        .permitAll()
-        .antMatchers("/resources/js/**")
-        .permitAll()
-        .antMatchers("/resources/style/**")
-        .permitAll()
-        .antMatchers("/resources/templates/**")
-        .permitAll()
-        .antMatchers("/resources/login.html")
-        .permitAll()
-        .antMatchers(HttpMethod.POST, "/user")
-        .permitAll()
-        .antMatchers(HttpMethod.HEAD, "/login")
-        .permitAll()
-        .antMatchers(HttpMethod.GET, "/login")
-        .permitAll()
-        .anyRequest().permitAll();
+    http.authorizeRequests().antMatchers("/resources/config/**").permitAll()
+        .antMatchers("/resources/fonts/**").permitAll().antMatchers("/resources/images/**")
+        .permitAll().antMatchers("/resources/js/**").permitAll().antMatchers("/resources/style/**")
+        .permitAll().antMatchers("/resources/templates/**").permitAll()
+        .antMatchers("/resources/login.html").permitAll().antMatchers(HttpMethod.POST, "/user")
+        .permitAll().antMatchers(HttpMethod.HEAD, "/login").permitAll()
+        .antMatchers(HttpMethod.GET, "/login").permitAll().anyRequest().permitAll();
 
-        // Uncomment below loc to enable form based login.
-//        .authenticated()
-//        .and()
-//        .formLogin()
-//        .defaultSuccessUrl("/dashboard")
-//        .loginProcessingUrl("/authenticate")
-//        .usernameParameter("username")
-//        .passwordParameter("password")
-//        .successHandler(
-//            new AjaxAuthenticationSuccessHandler(
-//                new SavedRequestAwareAuthenticationSuccessHandler())).loginPage("/login").and()
-//        .httpBasic().and().logout().logoutUrl("/logout").logoutSuccessUrl("/login").permitAll();
+    // Uncomment below code to enable form based login.
+    // .authenticated()
+    // .and()
+    // .formLogin()
+    // .defaultSuccessUrl("/dashboard")
+    // .loginProcessingUrl("/authenticate")
+    // .usernameParameter("username")
+    // .passwordParameter("password")
+    // .successHandler(
+    // new AjaxAuthenticationSuccessHandler(
+    // new SavedRequestAwareAuthenticationSuccessHandler())).loginPage("/login").and()
+    // .httpBasic().and().logout().logoutUrl("/logout").logoutSuccessUrl("/login").permitAll();
   }
 
 }

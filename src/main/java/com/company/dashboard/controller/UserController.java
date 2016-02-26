@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.company.dashboard.dto.UserDto;
 import com.company.dashboard.service.UserService;
 
+/**
+ * A Spring controller for User based rest calls.
+ */
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -25,6 +28,11 @@ public class UserController {
   @Autowired
   private UserService userService;
 
+  /**
+   * Provides a list of all users.
+   * 
+   * @return A List of all users.
+   */
   @ResponseBody
   @RequestMapping(value = "/all", method = RequestMethod.GET)
   public List<UserDto> all() {
@@ -32,6 +40,13 @@ public class UserController {
     return userService.all();
   }
 
+  /**
+   * Provides a User for a given id. Throws UserNotFoundException if id is null or 0 or user doesn't
+   * exists.
+   * 
+   * @param id Id of the user.
+   * @return A User.
+   */
   @ResponseBody
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public UserDto get(@PathVariable Long id) {
@@ -49,6 +64,11 @@ public class UserController {
     return user;
   }
 
+  /**
+   * Creates a user. Throws InvalidUserProvided exception if user id is not null or user is null.
+   * 
+   * @param dto User to be saved.
+   */
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(method = RequestMethod.POST)
   public void add(@RequestBody UserDto dto) {
@@ -60,6 +80,12 @@ public class UserController {
     userService.add(dto);
   }
 
+  /**
+   * Updates a user. Throws InvalidUserProvided exception if user is null. Throws
+   * UserNotFoundException if user doesn't exists.
+   * 
+   * @param dto
+   */
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(method = RequestMethod.PUT)
   public void update(@RequestBody UserDto dto) {
@@ -75,6 +101,12 @@ public class UserController {
     }
   }
 
+  /**
+   * Deletes a user. while deleting it switches the active flag of a user to false (i.e. soft
+   * delete). Throws InvalidUserProvided if user id null.
+   * 
+   * @param id Id of the user to be deleted.
+   */
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public void remove(@PathVariable Long id) {
@@ -86,6 +118,11 @@ public class UserController {
     userService.delete(id);
   }
 
+  /**
+   * Reverts a soft deleted user. Throws InvalidUserProvided if id is null.
+   * 
+   * @param id Id of a user to be enabled.
+   */
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(value = "enable/{id}", method = RequestMethod.PUT)
   public void enableUser(@PathVariable Long id) {

@@ -13,12 +13,22 @@ public class RoutingController {
 
   private static final Logger logger = Logger.getLogger(RoutingController.class);
 
+  /**
+   * Maps the resource of login url to login.html.
+   * 
+   * @return A Login html url.
+   */
   @RequestMapping(value = "/login")
   public String login() {
     logger.info("Fetching login html");
     return "resources/login.html";
   }
 
+  /**
+   * Maps a dashboard html to dashboard url.
+   * 
+   * @return A dashboard html url.
+   */
   @RequestMapping(value = "/dashboard")
   public String dashboard() {
     logger.info("Fetching dashboard html");

@@ -5,7 +5,7 @@ angular.module('dashboardApp').config(function($routeProvider, $urlRouterProvide
       url: '/app',
       views: {
         '': {
-          templateUrl : 'resources/templates/dashboard/dashboard.html'
+          templateUrl : 'resources/templates/company-dashboard.html'
         }
       }
   })

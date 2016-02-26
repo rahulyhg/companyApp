@@ -15,6 +15,9 @@ import com.company.dashboard.dto.UserDto;
 import com.company.dashboard.entity.Company;
 import com.company.dashboard.entity.User;
 
+/**
+ * Contains methods for mapping a Company to CompanyDto and vice-versa.
+ */
 @Component
 public class CompanyMapper {
 
@@ -23,6 +26,12 @@ public class CompanyMapper {
   @Autowired
   private UserMapper userMapper;
 
+  /**
+   * Returns a CompanyDto from company. Throws IllegalArgumentException if company is null.
+   * 
+   * @param company Company to be mapped.
+   * @return An instance of mapped CompanyDto.
+   */
   public CompanyDto get(Company company) {
     Assert.notNull(company, "Company is required for mapping.");
     CompanyDto dto = new CompanyDto();
@@ -41,6 +50,12 @@ public class CompanyMapper {
     return dto;
   }
 
+  /**
+   * Returns a Company from CompanyDto. Throws IllegalArgumentException if dto is null.
+   * 
+   * @param company CompanyDto to be mapped.
+   * @return An instance of mapped Company.
+   */
   public Company get(CompanyDto dto) {
     Assert.notNull(dto, "Company Dto is required for mapping.");
     Company company = new Company();
@@ -76,6 +91,12 @@ public class CompanyMapper {
     return dest;
   }
 
+  /**
+   * Returns a list of mapped CompanDto from a list of Company.
+   * 
+   * @param companies Companies to be mapped.
+   * @return A list of CompanyDto.
+   */
   public List<CompanyDto> get(Iterable<Company> companies) {
     List<CompanyDto> dtos = new ArrayList<CompanyDto>();
     for (Company company : companies) {

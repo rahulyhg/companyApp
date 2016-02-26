@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.company.dashboard.dto.CompanyDto;
-import com.company.dashboard.dto.UserDto;
 import com.company.dashboard.entity.Company;
 import com.company.dashboard.entity.User;
 import com.company.dashboard.mapper.CompanyMapper;
 import com.company.dashboard.repository.CompanyRepository;
 
+/**
+ * Sits between a controller and repository. A business logic layer for managing Company.
+ */
 @Service
 public class CompanyService {
 
@@ -32,6 +34,11 @@ public class CompanyService {
   @Autowired
   private UserService userService;
 
+  /**
+   * Returns a list of all companies.
+   * 
+   * @return A List of company.
+   */
   public List<CompanyDto> all() {
     logger.info("Getting all companies");
     List<CompanyDto> dtos = companyMapper.get(companyRepository.findAll());
@@ -39,6 +46,12 @@ public class CompanyService {
     return dtos;
   };
 
+  /**
+   * Gets a company using by id. Throws IllegalArgumentException if id is null.
+   * 
+   * @param id Id of the company.
+   * @return A Company or null if it doesn't exists.
+   */
   public CompanyDto get(Long id) {
     Assert.notNull(id, "A company id is required.");
     logger.info("Fetching company with id " + id);
@@ -50,6 +63,12 @@ public class CompanyService {
     }
   }
 
+  /**
+   * Saves a new company.
+   * 
+   * @param dto Company to be saved.
+   * @return Dto of the saved company.
+   */
   @Transactional
   public CompanyDto add(CompanyDto dto) {
     logger.info("Adding a company: " + dto.toString());
@@ -59,6 +78,11 @@ public class CompanyService {
     return companyMapper.get(company);
   }
 
+  /**
+   * Deletes a company.
+   * 
+   * @param id Id of the company to be deleted.
+   */
   @Transactional
   public void delete(Long id) {
     logger.info("Deleting a company having id: " + id);
@@ -66,6 +90,12 @@ public class CompanyService {
     logger.info("Deleted company having id: " + id);
   }
 
+  /**
+   * Updates a company. Doesn't update the owners.
+   * 
+   * @param dto Company to be updated.
+   * @return Updated company.
+   */
   @Transactional
   public CompanyDto update(CompanyDto dto) {
     logger.info("Update company id " + dto.getId());
@@ -76,6 +106,13 @@ public class CompanyService {
     return companyMapper.get(companyRepository.save(companyMapper.copy(dto, company)));
   }
 
+  /**
+   * Removes a company owner.
+   * 
+   * @param ownerId Id of user to be removed.
+   * @param companyId Id of company to be updated.
+   * @return Updated Company.
+   */
   public CompanyDto removeOwner(Long ownerId, Long companyId) {
     Company company = companyRepository.findOne(companyId);
     if (company == null) {
@@ -91,6 +128,13 @@ public class CompanyService {
     return companyMapper.get(companyRepository.save(company));
   }
 
+  /**
+   * Adds an owner to a company.
+   * 
+   * @param ownerId Id of user to be added.
+   * @param companyId Id of the company to be updated.
+   * @return Updated company.
+   */
   public CompanyDto addOwner(Long ownerId, Long companyId) {
     Assert.notNull(companyId, "A company Id is required while adding an owner.");
     Assert.notNull(ownerId, "User Id cannot be null while adding an owner.");

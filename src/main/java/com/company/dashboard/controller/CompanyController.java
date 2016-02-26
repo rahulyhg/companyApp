@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.company.dashboard.dto.CompanyDto;
 import com.company.dashboard.service.CompanyService;
 
+/**
+ * Represents the REST based controller for managing Company.
+ */
 @Controller
 @RequestMapping("/company")
 public class CompanyController {
@@ -28,6 +31,11 @@ public class CompanyController {
   @Autowired
   private CompanyService companyService;
 
+  /**
+   * Returns all companies.
+   * 
+   * @return A list of all companies.
+   */
   @ResponseBody
   @RequestMapping(value = "/all", method = RequestMethod.GET)
   public List<CompanyDto> all() {
@@ -35,6 +43,13 @@ public class CompanyController {
     return companyService.all();
   }
 
+  /**
+   * Returns a company for a given id. Throws CompanyNotFoundException if id is null or 0 or no
+   * company exists for a given id.
+   * 
+   * @param id Id of a company.
+   * @return A company.
+   */
   @ResponseBody
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public CompanyDto get(@PathVariable Long id) {
@@ -53,6 +68,12 @@ public class CompanyController {
     }
   }
 
+  /**
+   * Saves a new company. Throws InvalidCompanyProvided if id is dto is null or id is not null in
+   * dto.
+   * 
+   * @param dto Company to be saved.
+   */
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(method = RequestMethod.POST)
   public void add(@RequestBody CompanyDto dto) {
@@ -64,6 +85,12 @@ public class CompanyController {
     companyService.add(dto);
   }
 
+  /**
+   * Updates an existing company. Throws InvalidCompanyProvided if dto is null or if company does
+   * not exists. Doesn't update owners of a company.
+   * 
+   * @param dto Company to be updated.
+   */
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(method = RequestMethod.PUT)
   public void update(@RequestBody CompanyDto dto) {
@@ -79,6 +106,11 @@ public class CompanyController {
     }
   }
 
+  /**
+   * Removes a company for a given id. Throws InvalidCompanyProvided exception if id is null.
+   * 
+   * @param id Id of a company to be removed.
+   */
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public void remove(@PathVariable Long id) {
@@ -90,6 +122,14 @@ public class CompanyController {
     companyService.delete(id);
   }
 
+  /**
+   * An exception handler for company rest calls. Currently, this handles only
+   * IllegalArgumentException.
+   * 
+   * @param req A request.
+   * @param exception Exception raised by a method.
+   * @return Message for the UI.
+   */
   @ResponseBody
   @ExceptionHandler({IllegalArgumentException.class})
   @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -98,6 +138,14 @@ public class CompanyController {
     return "Invalid request provided.";
   }
 
+  /**
+   * Removes a owner from a company. Throws InvalidCompanyProvided if company id is null. Throws
+   * InvalidUserProvided if user id is null. Throws CompanyNotFoundException if company doesn't
+   * exists.
+   * 
+   * @param companyId Id of the company.
+   * @param ownerId Id of a user.
+   */
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(value = "/{companyId}/{ownerId}", method = RequestMethod.DELETE)
   public void removeOwner(@PathVariable Long companyId, @PathVariable Long ownerId) {
@@ -116,6 +164,14 @@ public class CompanyController {
     }
   }
 
+  /**
+   * Adds an owner into a company. Throws InvalidCompanyProvided if company id is null. Throws
+   * InvalidUserProvided if user id is null. Throws CompanyNotFoundException if company doesn't
+   * exists.
+   * 
+   * @param companyId Id of the company.
+   * @param ownerId Id of a user.
+   */
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(value = "/{companyId}/{ownerId}", method = RequestMethod.PUT)
   public void addOwner(@PathVariable Long companyId, @PathVariable Long ownerId) {

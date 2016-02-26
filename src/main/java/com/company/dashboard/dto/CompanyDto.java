@@ -3,6 +3,9 @@ package com.company.dashboard.dto;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * DTO of Company.
+ */
 public class CompanyDto {
 
   private Long id;

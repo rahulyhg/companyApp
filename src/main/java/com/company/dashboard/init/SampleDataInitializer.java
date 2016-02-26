@@ -59,7 +59,7 @@ public class SampleDataInitializer {
       companyUser.add(userOne);
       companyUser.add(userTwo);
       session.save(new Company("Company One", "address one", "abc", "testCompany1@company.com",
-          "1234", companyUser));
+          "1234", companyUser, "test city"));
       transaction.commit();
     }
   }

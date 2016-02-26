@@ -20,6 +20,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * Represents the company table.
+ *
+ */
 @Entity
 @Table(name = "COMPANY")
 public class Company {
@@ -63,7 +67,7 @@ public class Company {
   public Company() {};
 
   public Company(String name, String address, String country, String email, String phone,
-      Set<User> owners) {
+      Set<User> owners, String city) {
     this.name = name;
     this.address = address;
     this.country = country;
@@ -73,6 +77,7 @@ public class Company {
     Date current = new Date();
     createdOn = current;
     updatedOn = current;
+    this.city = city;
   }
 
   public void setId(long id) {

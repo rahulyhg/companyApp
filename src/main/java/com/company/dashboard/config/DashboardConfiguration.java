@@ -9,10 +9,13 @@ import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -27,7 +30,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.company.dashboard.init.SampleDataInitializer;
 
 /**
- * Integration testing specific configuration - uses the floritos postgres db, sets hibernate on
+ * Integration testing specific configuration - uses the company postgres db, sets hibernate on
  * create drop mode and inserts some test data on the database.
  */
 @Configuration
@@ -38,7 +41,24 @@ import com.company.dashboard.init.SampleDataInitializer;
     "com.company.dashboard.mapper", "com.company.dashboard.provider",
     "com.company.dashboard.security"})
 @EnableWebMvc
+@PropertySource("classpath:application-dev.properties")
 public class DashboardConfiguration {
+
+
+  @Value("${db.url}")
+  private String dbUrl;
+
+  @Value("${db.user}")
+  private String dbUser;
+
+  @Value("${db.password}")
+  private String dbPassword;
+
+  @Value("${db.driverClass}")
+  private String dbDriverClass;
+
+  @Value("${hibernate.dialect}")
+  private String hibernateDialect;
 
   /**
    * Provides an initializer for setting up application data.
@@ -58,10 +78,10 @@ public class DashboardConfiguration {
   @Bean(name = "datasource")
   public DriverManagerDataSource dataSource() {
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    dataSource.setDriverClassName("org.postgresql.Driver");
-    dataSource.setUrl("jdbc:postgresql://localhost:5432/company?loglevel=0");
-    dataSource.setUsername("company");
-    dataSource.setPassword("company");
+    dataSource.setDriverClassName(dbDriverClass);
+    dataSource.setUrl(dbUrl);
+    dataSource.setUsername(dbUser);
+    dataSource.setPassword(dbPassword);
     return dataSource;
   }
 
@@ -87,7 +107,7 @@ public class DashboardConfiguration {
     jpaProperties.put("hibernate.show_sql", "false");
     jpaProperties.put("hibernate.format_sql", "true");
     jpaProperties.put("hibernate.use_sql_comments", "true");
-    jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
+    jpaProperties.put("hibernate.dialect", hibernateDialect);
     jpaProperties.put("hibernate.current_session_context_class", "thread");
     entityManagerFactoryBean.setJpaPropertyMap(jpaProperties);
     return entityManagerFactoryBean;
@@ -107,6 +127,13 @@ public class DashboardConfiguration {
     return sessionBuilder.buildSessionFactory();
   }
 
+  /**
+   * Provide a TransactionManager.
+   * 
+   * @param entityManagerFactory An entity manager factory.
+   * @param dataSource Datasource to be used.
+   * @return A Transaction Manager.
+   */
   @Bean(name = "transactionManager")
   public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory,
       DriverManagerDataSource dataSource) {
@@ -114,5 +141,15 @@ public class DashboardConfiguration {
     transactionManager.setEntityManagerFactory(entityManagerFactory);
     transactionManager.setDataSource(dataSource);
     return transactionManager;
+  }
+
+  /**
+   * Provides a configurer to resolve ${} in value annotation.
+   * 
+   * @return Returns PropertySourcesPlaceholderConfigurer.
+   */
+  @Bean
+  public static PropertySourcesPlaceholderConfigurer propertyConfig() {
+    return new PropertySourcesPlaceholderConfigurer();
   }
 }

@@ -2,6 +2,9 @@ package com.company.dashboard.dto;
 
 import java.util.Date;
 
+/**
+ * DTO of User.
+ */
 public class UserDto {
 
   private Long id;
