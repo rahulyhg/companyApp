@@ -21,21 +21,22 @@ angular.module('dashboardApp').controller('DashboardCntrl',
           };
 
           var onListAllCompanies = function(response) {
+              if (response.status != 200) {
+                return;
+              }
               $scope.companies = response.data;
           };
 
           $scope.getCompany = function() {
               var promise = companyService.get($scope.selectedCompanyId);
-              promise.then(onGetCompany, onGetCompanyFail);
+              promise.then(onGetCompany);
           };
 
           var onGetCompany = function(response) {
+        	  if (response.status != 200) {
+                  return;
+                }
               $scope.selectedCompany = response.data;
-          };
-
-          var onGetCompanyFail = function(response) {
-              console.log(response);
-              alert('failed');
           };
 
           $scope.saveUpdateCompany = function() {
@@ -55,6 +56,9 @@ angular.module('dashboardApp').controller('DashboardCntrl',
           };
 
           var onSaveUpdateCompany = function(response) {
+            if (response.status != 200) {
+              return;
+            }
             alert("Company saved.")
             listAllCompanies();
             $scope.companyToUpdate = {};
@@ -63,6 +67,9 @@ angular.module('dashboardApp').controller('DashboardCntrl',
           var listAllUsers = function() {
             var promise = userService.all();
             promise.then(function(response) {
+            if (response.status != 200) {
+                return;
+              }
               $scope.existingUsers = response.data;
             });
           };
@@ -77,7 +84,11 @@ angular.module('dashboardApp').controller('DashboardCntrl',
                       $scope.userToUpdate.password, $scope.userToUpdate.name);
             }
             promise.then(function(response) {
-              alert("User saved.")
+              if(response.status != 200) {
+                alert("Unable to save user.");
+              } else {
+                alert("User saved.");
+              }
               listAllUsers();
               $scope.userToUpdate = {};
             });
@@ -86,7 +97,11 @@ angular.module('dashboardApp').controller('DashboardCntrl',
           $scope.deleteCompany = function(id) {
             var promise = companyService.remove(id);
             promise.then(function(response) {
-              alert('Company removed');
+              if (response.status != 200) {
+            	  alert('Unable to remove company.');
+              } else {
+            	  alert('Company removed');
+              }
               listAllCompanies();
             });
           };
@@ -94,7 +109,11 @@ angular.module('dashboardApp').controller('DashboardCntrl',
           $scope.deleteUser = function(id) {
             var promise = userService.remove(id);
             promise.then(function(response) {
-              alert('User removed');
+              if (response.status != 200) {
+            	  alert('Unable to delete user.');
+              } else {
+            	  alert('User removed');
+              }
               listAllUsers();
             });
           };
@@ -102,7 +121,11 @@ angular.module('dashboardApp').controller('DashboardCntrl',
           $scope.removeOwner = function(ownerId, companyId) {
             var promise = companyService.removeOwner(ownerId, companyId);
             promise.then(function(response) {
-                alert('Owner Removed.');
+            	if(response.status != 200) {
+            		alert('Unable to remove owner.')
+            	} else {
+                    alert('Owner Removed.');
+            	}
                 listAllCompanies();
               });
           };
@@ -110,7 +133,11 @@ angular.module('dashboardApp').controller('DashboardCntrl',
           $scope.enableUser = function() {
             var promise = userService.enableUser($scope.disabledUserId);
             promise.then(function(response) {
-              alert('User Enabled.');
+              if(response.status != 200) {
+            	  alert('User not enabled.');
+              } else {
+            	  alert('User Enabled.');
+              }
               listAllUsers();
               $scope.disabledUserId = null;
             });
@@ -119,7 +146,11 @@ angular.module('dashboardApp').controller('DashboardCntrl',
           $scope.addOwner = function() {
               var promise = companyService.addOwner($scope.addOwner.ownerId, $scope.addOwner.companyId);
               promise.then(function(response) {
-                alert('Owner Added.');
+            	if (response.status != 200) {
+            		alert('Unable to add owner');
+            	} else {
+            		alert('Owner Added.');
+            	}
                 listAllCompanies();
                 $scope.addOwner = {};
               });

@@ -18,6 +18,7 @@ Create new db(company) with access to user company password company:
 `mvn clean heroku:deploy-war` will deploy the application  heroku.
 
 Heroku instance of application can be accessed via: [Company App] (http://company-app.herokuapp.com/)
+You might notice app not opening, that's because I'm running this on free instance.
 
 ## App Login
 
