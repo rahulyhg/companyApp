@@ -22,6 +22,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -109,6 +110,7 @@ public class DashboardConfiguration {
     jpaProperties.put("hibernate.use_sql_comments", "true");
     jpaProperties.put("hibernate.dialect", hibernateDialect);
     jpaProperties.put("hibernate.current_session_context_class", "thread");
+    jpaProperties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
     entityManagerFactoryBean.setJpaPropertyMap(jpaProperties);
     return entityManagerFactoryBean;
   }
@@ -116,15 +118,15 @@ public class DashboardConfiguration {
   /**
    * Provides Session Factory.
    * 
-   * @param dataSource A datasource.
+   * @param emf Entity Manager Factory.
    * @return A session factory.
    */
   @Autowired
   @Bean(name = "sessionFactory")
-  public SessionFactory getSessionFactory(DataSource dataSource) {
-    LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-    sessionBuilder.scanPackages("com.company.dashboard.entity");
-    return sessionBuilder.buildSessionFactory();
+  public HibernateJpaSessionFactoryBean sessionFactory(EntityManagerFactory emf) {
+    HibernateJpaSessionFactoryBean factory = new HibernateJpaSessionFactoryBean();
+    factory.setEntityManagerFactory(emf);
+    return factory;
   }
 
   /**

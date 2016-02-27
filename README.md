@@ -15,6 +15,10 @@ Create new db(company) with access to user company password company:
   running the build. No need to install node, npm, bower. The maven will take
   care of every thing.
 
+`mvn clean heroku:deploy-war` will deploy the application  heroku.
+
+Application can be accessed via: [a link] (http://company-app.herokuapp.com/)
+
 ## App Login
 
 **URL:** localhost:8080/company-dashboard

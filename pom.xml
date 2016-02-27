@@ -345,6 +345,15 @@
         </executions>
       </plugin>
 
+      <plugin>
+        <groupId>com.heroku.sdk</groupId>
+        <artifactId>heroku-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <configuration>
+            <appName>company-app</appName>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 </project>
