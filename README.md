@@ -36,3 +36,23 @@ can develop different logics/ UI interfaces for success and failure login.
 For making a service redundant. I'll apply the deprecated annotation over method
 to make developers aware of it and can configure AppSecurityConfig to deny all
 requests to the same url.
+
+
+##Urls##
+
+1. Create a Company.
+POST request to https://company-app.herokuapp.com/company with form data.
+
+2. Get all company.
+GET request to https://company-app.herokuapp.com/company/all
+
+3. Get details of a company.
+GET request to https://company-app.herokuapp.com/company/{id}
+
+4. Update a company.
+PUT request to https://company-app.herokuapp.com/company with form data.
+
+5. Add owner to a company.
+PUT request to https://company-app.herokuapp.com/company/{companyId}/{ownerId}
+
+
